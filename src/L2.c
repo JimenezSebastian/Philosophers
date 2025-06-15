@@ -1,51 +1,13 @@
 #include "../include/philo.h"
 
-int 	ft_malloc_mem(t_mem **mem)
+int ft_L2(t_mem *mem)
 {
-	*mem = malloc(sizeof(t_mem));
-	if (!*mem)
+    if (ft_init_mutexes(mem))
+		return (1);	
+	ft_init_philos(mem);
+	if (ft_create_threads(mem))
 		return (1);
-	ft_init_mem(*mem);
-	return (0);
-}
-
-void	ft_init_mem(t_mem *mem)
-{
-	mem->n_philo = 0;
-	mem->time_to_die = 0;
-	mem->time_to_eat = 0;
-	mem->time_to_sleep = 0;
-	mem->must_eat = -1;
-	mem->f_routine_completed = 0;
-	mem->start_time = 0;
-	mem->mutex = NULL;
-	mem->threads = NULL;
-	mem->philos = NULL;
-}
-
-int	ft_parse_args(t_mem *mem, char **argv)
-{
-	mem->n_philo = ft_atoi(argv[1]);
-	mem->time_to_die = ft_atoi(argv[2]);
-	mem->time_to_eat = ft_atoi(argv[3]);
-	mem->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		mem->must_eat = ft_atoi(argv[5]);
-	if (mem->must_eat == 0)
-		return (1);
-	return (0);
-}
-
-int	ft_alloc_threads_and_philos(t_mem *mem)
-{
-	mem->philos = malloc(sizeof(t_philo) * mem->n_philo);
-	if (!mem->philos)
-		return (1);
-	mem->mutex = malloc(sizeof(pthread_mutex_t) * mem->n_philo);
-	if (!mem->mutex)
-		return (1);
-	mem->threads = malloc(sizeof(pthread_t) * mem->n_philo);
-	if (!mem->threads)
+	if (ft_create_monitor(mem))
 		return (1);
 	return (0);
 }
@@ -111,6 +73,7 @@ int	ft_create_monitor(t_mem *mem)
 
 	if (pthread_create(&monitor, NULL, &ft_monitor, mem) != 0)
 		return (1);
-	pthread_join(monitor, NULL);
+	if (pthread_join(monitor, NULL))
+		return (1);
 	return (0);
 }

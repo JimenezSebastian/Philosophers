@@ -1,6 +1,11 @@
 #include "../include/philo.h"
 
-void	ft_cleanup(t_mem *mem)
+void ft_LCE(t_mem *mem)
+{
+    ft_graceful_shutedown(mem);
+}
+
+void	ft_graceful_shutedown(t_mem *mem)
 {
 	int	i;
 

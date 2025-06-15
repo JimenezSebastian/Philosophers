@@ -2,7 +2,7 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Ilibft
 
-SRCS = src/1.c src/2.c src/3.c src/Exit_Clean.c src/main.c src/utils.c
+SRCS = src/L1.c src/L2.c src/L3_A.c src/L3_B.c src/L4.c src/LCE.c src/LGU.c src/main.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT = libft/libft.a
