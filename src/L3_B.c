@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   L3_B.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almejia- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:38:40 by almejia-          #+#    #+#             */
-/*   Updated: 2025/06/22 14:38:42 by almejia-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:41:10 by almejia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	*ft_solo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->time_last_meal = get_time_ms();
 	pthread_mutex_lock(philo->left_fork);
 	ft_safe_print(philo, 1);
 	usleep(philo->mem->time_to_die * 1000);
@@ -27,19 +28,12 @@ void	*ft_solo_routine(void *arg)
 void	ft_barrer_time(t_philo *philo)
 {
 	int		group;
-	long	delay;
-	long	now;
-	long	target_time;
+	long	start_delay;
 
 	group = philo->id % 3;
-	delay = group * (philo->mem->time_to_eat);
-	target_time = philo->mem->start_time + delay;
-	now = get_time_ms();
-	while (now < target_time)
-	{
-		usleep(100);
-		now = get_time_ms();
-	}
+	start_delay = group * (philo->mem->time_to_eat / 2);
+	while (get_time_ms() - philo->mem->start_time < start_delay)
+		usleep(50);
 }
 
 int	ft_verify_starv(t_philo *philo)
@@ -65,7 +59,7 @@ void	ft_set_routine_completed(t_mem *mem)
 
 void	ft_lock_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0 && philo->mem->n_philo % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
@@ -78,5 +72,19 @@ void	ft_lock_forks(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		ft_safe_print(philo, 1);
 		ft_safe_print(philo, 1);
+	}
+}
+
+void	ft_unlock_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0 && philo->mem->n_philo % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 	}
 }

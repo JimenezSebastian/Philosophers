@@ -6,7 +6,7 @@
 /*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:38:27 by almejia-          #+#    #+#             */
-/*   Updated: 2025/06/22 15:24:02 by almejia-         ###   ########.fr       */
+/*   Updated: 2025/06/22 16:06:42 by almejia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	ft_eat(t_philo *philo)
 	philo->time_last_meal = get_time_ms();
 	pthread_mutex_unlock(&philo->m_time_last_meal);
 	usleep(philo->mem->time_to_eat * 1000);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	ft_unlock_forks(philo);
 	philo->meals_target--;
 }
 
