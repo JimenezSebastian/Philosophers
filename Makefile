@@ -14,7 +14,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	make clean
 	clear
-	./philo 5 800 200 200
+	./philo 3 310 103 103
 
 $(LIBFT):
 	$(MAKE) -C libft

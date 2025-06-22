@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   L1.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/22 14:38:02 by almejia-          #+#    #+#             */
+/*   Updated: 2025/06/22 14:42:38 by almejia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-int ft_L1(t_mem **mem, char **argv)
+int	ft_l1(t_mem **mem, char **argv)
 {
 	if (ft_malloc_mem(mem))
 		return (1);
 	if (ft_check_digit_args(argv))
 		return (1);
-    if (ft_parse_args(*mem, argv))	
+	if (ft_parse_args(*mem, argv))
 		return (1);
-    if (ft_alloc_threads_and_philos(*mem))
+	if (ft_alloc_threads_and_philos(*mem))
 		return (1);
 	return (0);
 }

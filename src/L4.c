@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   L4.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/22 14:38:59 by almejia-          #+#    #+#             */
+/*   Updated: 2025/06/22 14:53:42 by almejia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 void	*ft_monitor(void *arg)
@@ -27,18 +39,6 @@ void	*ft_monitor(void *arg)
 	return (NULL);
 }
 
-int	ft_is_active(t_philo *philo)
-{
-	int	active;
-
-	active = 0;
-	pthread_mutex_lock(&philo->m_time_last_meal);
-	if (philo->time_last_meal > 0)
-		active = 1;
-	pthread_mutex_unlock(&philo->m_time_last_meal);
-	return (active);
-}
-
 int	ft_should_stop(t_mem *mem)
 {
 	int	stop;
@@ -51,11 +51,24 @@ int	ft_should_stop(t_mem *mem)
 	return (stop);
 }
 
+int	ft_is_active(t_philo *philo)
+{
+	int	active;
+
+	active = 0;
+	pthread_mutex_lock(&philo->m_time_last_meal);
+	if (philo->time_last_meal > 0)
+		active = 1;
+	pthread_mutex_unlock(&philo->m_time_last_meal);
+	return (active);
+}
+
 void	ft_starv_protocol(t_mem *mem, int d)
 {
+	int	i;
+
 	ft_print_msg(&mem->philos[d], 5);
-	
-	int	i = 0;
+	i = 0;
 	while (i < mem->n_philo)
 	{
 		pthread_mutex_lock(&mem->philos[i].m_starvation);

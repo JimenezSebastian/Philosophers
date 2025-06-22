@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   L3_B.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almejia- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/22 14:38:40 by almejia-          #+#    #+#             */
+/*   Updated: 2025/06/22 14:38:42 by almejia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 void	*ft_solo_routine(void *arg)
@@ -22,7 +34,6 @@ void	ft_barrer_time(t_philo *philo)
 	group = philo->id % 3;
 	delay = group * (philo->mem->time_to_eat);
 	target_time = philo->mem->start_time + delay;
-	
 	now = get_time_ms();
 	while (now < target_time)
 	{
@@ -31,9 +42,9 @@ void	ft_barrer_time(t_philo *philo)
 	}
 }
 
-int ft_verify_starv(t_philo *philo)
+int	ft_verify_starv(t_philo *philo)
 {
-	int flag;
+	int	flag;
 
 	if (philo->meals_target == 0)
 		return (1);
