@@ -1,17 +1,15 @@
 #include "../include/philo.h"
 
-int ft_verify(t_philo *philo)
+void	*ft_solo_routine(void *arg)
 {
-	int flag;
+	t_philo	*philo;
 
-	if (philo->meals_eaten == 0)
-		return (1);
-	flag = 0;
-	pthread_mutex_lock(&philo->m_starvation);
-	if (philo->f_starvation)
-		flag = 1;
-	pthread_mutex_unlock(&philo->m_starvation);
-	return (flag);
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(philo->left_fork);
+	ft_safe_print(philo, 1);
+	usleep(philo->mem->time_to_die * 1000);
+	pthread_mutex_unlock(philo->left_fork);
+	return (NULL);
 }
 
 void	ft_barrer_time(t_philo *philo)
@@ -33,16 +31,41 @@ void	ft_barrer_time(t_philo *philo)
 	}
 }
 
-void	*ft_solo_routine(void *arg)
+int ft_verify_starv(t_philo *philo)
 {
-	t_philo	*philo;
+	int flag;
 
-	philo = (t_philo *)arg;
-	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(&philo->mem->print_mutex);
-	printf("%ld %d has taken a fork\n", get_time_ms() - philo->mem->start_time, philo->id);
-	pthread_mutex_unlock(&philo->mem->print_mutex);
-	usleep(philo->mem->time_to_die * 1000);
-	pthread_mutex_unlock(philo->left_fork);
-	return (NULL);
+	if (philo->meals_target == 0)
+		return (1);
+	flag = 0;
+	pthread_mutex_lock(&philo->m_starvation);
+	if (philo->f_starvation)
+		flag = 1;
+	pthread_mutex_unlock(&philo->m_starvation);
+	return (flag);
+}
+
+void	ft_set_routine_completed(t_mem *mem)
+{
+	pthread_mutex_lock(&mem->m_routine_completed);
+	mem->f_routine_completed = 1;
+	pthread_mutex_unlock(&mem->m_routine_completed);
+}
+
+void	ft_lock_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork);
+		ft_safe_print(philo, 1);
+		ft_safe_print(philo, 1);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork);
+		ft_safe_print(philo, 1);
+		ft_safe_print(philo, 1);
+	}
 }

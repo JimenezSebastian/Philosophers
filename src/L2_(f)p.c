@@ -42,12 +42,14 @@ void	ft_init_philos(t_mem *mem)
 	while (i < mem->n_philo)
 	{
 		mem->philos[i].id = i + 1;
-		mem->philos[i].meals_eaten = -1;
-		mem->philos[i].time_last_meal = 0;
+		mem->philos[i].time_last_meal = -1;
 		mem->philos[i].f_starvation = 0;
 		mem->philos[i].left_fork = &mem->mutex[i];
 		mem->philos[i].right_fork = &mem->mutex[(i + 1) % mem->n_philo];
 		mem->philos[i].mem = mem;
+		mem->philos[i].meals_target = -1;
+		if (mem->must_eat)
+			mem->philos[i].meals_target = mem->must_eat;
 		i++;
 	}
 }
@@ -57,7 +59,7 @@ int	ft_create_threads(t_mem *mem)
 	int	i;
 
 	i = 0;
-	mem->start_time = get_time_ms();
+	mem->start_time = get_time_ms(); // Tiempo creacion para referencia al revisar.
 	while (i < mem->n_philo)
 	{
 		if (pthread_create(&mem->threads[i], NULL, &ft_routine, &mem->philos[i]) != 0)
