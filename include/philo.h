@@ -81,15 +81,16 @@ int					ft_create_monitor(t_mem *mem);
 
 // L3 -  Routine Principal Thread
 void				*ft_routine(void *arg);
+void				*ft_solo_routine(void *arg);
+void				ft_barrer_time(t_philo *philo);
 void				ft_eat(t_philo *philo);
 void				ft_sleep(t_philo *philo);
 
 // L3 -  Routine Principal Thread - B
-void				*ft_solo_routine(void *arg);
-void				ft_barrer_time(t_philo *philo);
 int					ft_verify_starv(t_philo *philo);
 void				ft_set_routine_completed(t_mem *mem);
 void				ft_unlock_forks(t_philo *philo);
+void				ft_set_meal_time(t_philo *philo, long t);
 
 // L4 -  Monitor Thread
 void				*ft_monitor(void *arg);
@@ -101,6 +102,7 @@ void				ft_lock_forks(t_philo *philo);
 // LCE  -  Clean Exit
 void				ft_lce(t_mem *mem);
 void				ft_graceful_shutedown(t_mem *mem);
+void 				ft_destroy_mutexes(t_mem *mem);
 
 // LG -  General Utils
 long				get_time_ms(void);

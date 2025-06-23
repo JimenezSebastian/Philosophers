@@ -12,30 +12,6 @@
 
 #include "../include/philo.h"
 
-void	*ft_solo_routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	philo->time_last_meal = get_time_ms();
-	pthread_mutex_lock(philo->left_fork);
-	ft_safe_print(philo, 1);
-	usleep(philo->mem->time_to_die * 1000);
-	pthread_mutex_unlock(philo->left_fork);
-	return (NULL);
-}
-
-void	ft_barrer_time(t_philo *philo)
-{
-	int		group;
-	long	start_delay;
-
-	group = philo->id % 3;
-	start_delay = group * (philo->mem->time_to_eat / 2);
-	while (get_time_ms() - philo->mem->start_time < start_delay)
-		usleep(50);
-}
-
 int	ft_verify_starv(t_philo *philo)
 {
 	int	flag;
@@ -87,4 +63,11 @@ void	ft_unlock_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}
+}
+
+void	ft_set_meal_time(t_philo *philo, long t)
+{
+	pthread_mutex_lock(&philo->m_time_last_meal);
+	philo->time_last_meal = t;
+	pthread_mutex_unlock(&philo->m_time_last_meal);
 }

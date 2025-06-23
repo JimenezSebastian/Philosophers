@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibft -g3
+CFLAGS = -Wall -Wextra -Werror -Ilibft -g3 -fsanitize=thread
 CONFIG = 4 410 200 200
 
 SRCS = src/L1.c src/L2.c src/L3_A.c src/L3_B.c\

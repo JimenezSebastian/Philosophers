@@ -19,8 +19,7 @@ void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->mem->n_philo == 1)
 		return (ft_solo_routine(philo));
-	ft_barrer_time(philo);
-	philo->time_last_meal = get_time_ms();
+	ft_set_meal_time(philo, get_time_ms());
 	while (1)
 	{
 		ft_safe_print(philo, 4);
@@ -35,6 +34,30 @@ void	*ft_routine(void *arg)
 	}
 	ft_set_routine_completed(philo->mem);
 	return (NULL);
+}
+
+void	*ft_solo_routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	ft_set_meal_time(philo, get_time_ms());
+	pthread_mutex_lock(philo->left_fork);
+	ft_safe_print(philo, 1);
+	usleep(philo->mem->time_to_die * 1000);
+	pthread_mutex_unlock(philo->left_fork);
+	return (NULL);
+}
+
+void	ft_barrer_time(t_philo *philo)
+{
+	int		group;
+	long	start_delay;
+
+	group = philo->id % 3;
+	start_delay = group * (philo->mem->time_to_eat / 2);
+	while (get_time_ms() - philo->mem->start_time < start_delay)
+		usleep(50);
 }
 
 void	ft_eat(t_philo *philo)

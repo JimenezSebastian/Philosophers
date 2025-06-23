@@ -27,15 +27,30 @@ void	ft_graceful_shutedown(t_mem *mem)
 		pthread_join(mem->threads[i], NULL);
 		i++;
 	}
+	ft_destroy_mutexes(mem);
+	free(mem->threads);
+	free(mem->mutex);
+	free(mem->philos);
+	free(mem);
+}
+
+void	ft_destroy_mutexes(t_mem *mem)
+{
+	int	i;
+
 	i = 0;
 	while (i < mem->n_philo)
 	{
 		pthread_mutex_destroy(&mem->mutex[i]);
 		i++;
 	}
+	i = 0;
+	while (i < mem->n_philo)
+	{
+		pthread_mutex_destroy(&mem->philos[i].m_time_last_meal);
+		pthread_mutex_destroy(&mem->philos[i].m_starvation);
+		i++;
+	}
 	pthread_mutex_destroy(&mem->print_mutex);
-	free(mem->threads);
-	free(mem->mutex);
-	free(mem->philos);
-	free(mem);
+	pthread_mutex_destroy(&mem->m_routine_completed);
 }
