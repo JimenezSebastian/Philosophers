@@ -27,8 +27,8 @@ int	ft_controller(char **argv)
 int	main(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
-		return (write(1, "Error : Args", 12), 1);
+		return (write(1, "Error : Args\n", 14), 1);
 	if (ft_controller(argv))
-		return (write(1, "Error : 404", 11), 1);
+		return (write(1, "Error : 404\n", 13), 1);
 	return (0);
 }
