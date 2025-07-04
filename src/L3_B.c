@@ -6,24 +6,11 @@
 /*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:38:40 by almejia-          #+#    #+#             */
-/*   Updated: 2025/06/22 17:41:10 by almejia-         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:29:35 by almejia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-void	*ft_solo_routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	philo->time_last_meal = get_time_ms();
-	pthread_mutex_lock(philo->left_fork);
-	ft_safe_print(philo, 1);
-	usleep(philo->mem->time_to_die * 1000);
-	pthread_mutex_unlock(philo->left_fork);
-	return (NULL);
-}
 
 void	ft_barrer_time(t_philo *philo)
 {

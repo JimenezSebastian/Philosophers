@@ -6,7 +6,7 @@
 /*   By: almejia- < almejia-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:39:42 by almejia-          #+#    #+#             */
-/*   Updated: 2025/06/22 17:36:34 by almejia-         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:28:53 by almejia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int					ft_create_monitor(t_mem *mem);
 
 // L3 -  Routine Principal Thread
 void				*ft_routine(void *arg);
+void				*ft_solo_routine(void *arg);
 void				ft_eat(t_philo *philo);
 void				ft_sleep(t_philo *philo);
 
@@ -89,6 +90,7 @@ void				*ft_solo_routine(void *arg);
 void				ft_barrer_time(t_philo *philo);
 int					ft_verify_starv(t_philo *philo);
 void				ft_set_routine_completed(t_mem *mem);
+void				ft_lock_forks(t_philo *philo);
 void				ft_unlock_forks(t_philo *philo);
 
 // L4 -  Monitor Thread
@@ -96,7 +98,6 @@ void				*ft_monitor(void *arg);
 int					ft_should_stop(t_mem *mem);
 int					ft_is_active(t_philo *philo);
 void				ft_starv_protocol(t_mem *mem, int d);
-void				ft_lock_forks(t_philo *philo);
 
 // LCE  -  Clean Exit
 void				ft_lce(t_mem *mem);
