@@ -1,7 +1,6 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Ilibft -g3
-CONFIG = 4 410 200 200
 
 SRCS = src/L1.c src/L2.c src/L3_A.c src/L3_B.c\
 	src/L4.c src/LCE.c src/LGU.c src/main.c
@@ -13,9 +12,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-	make clean
-	clear
-	./philo ${CONFIG}
 
 $(LIBFT):
 	$(MAKE) -C libft
